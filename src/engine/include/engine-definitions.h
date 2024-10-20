@@ -17,6 +17,7 @@ typedef struct EngineGFX {
     unsigned int shader_program;
     unsigned int vao;
     unsigned int vbo;
+    unsigned int ebo;
 } EngineGFX;
 
 typedef struct Engine {

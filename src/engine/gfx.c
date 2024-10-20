@@ -4,7 +4,7 @@
 #define VERTEX_SHADER_PATH "../src/shaders/base.vert"
 #define FRAGMENT_SHADER_PATH "../src/shaders/base.frag"
 
-unsigned int compile_shader(const char* shader_filepath, GLenum shader_type);
+unsigned int compile_shader(const char* shader_filepath, const GLenum shader_type);
 
 unsigned int shader_init(const char* vertex_shader_filepath, const char* fragment_shader_filepath);
 
@@ -21,17 +21,29 @@ EngineGFX* init_gfx() {
 
     // Temporal value, this should be provided to this step
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f,
+        -0.5f, 0.5f, 0.0f
     };
+
+    unsigned int indices[] = {
+        0, 1, 3,
+        1, 2, 3
+    };
+
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glGenVertexArrays(1, &gfx->vao);
     glGenBuffers(1, &gfx->vbo);
+    glGenBuffers(1, &gfx->ebo);
     glBindVertexArray(gfx->vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, gfx->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gfx->ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);   
@@ -46,7 +58,9 @@ void render_pipeline(EngineGFX* gfx) {
 
     glUseProgram(gfx->shader_program);
     glBindVertexArray(gfx->vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    // glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void clean_gfx(EngineGFX* gfx) {
@@ -54,12 +68,13 @@ void clean_gfx(EngineGFX* gfx) {
 
     glDeleteVertexArrays(1, &gfx->vao);
     glDeleteBuffers(1, &gfx->vbo);
+    glDeleteBuffers(1, &gfx->ebo);
     glDeleteProgram(gfx->shader_program);
 
     free(gfx);
 }
 
-unsigned int compile_shader(const char* shader_filepath, GLenum shader_type) {
+unsigned int compile_shader(const char* shader_filepath, const GLenum shader_type) {
     int success_compiling_shader;
     char infoLog[MSG_BUFFER];
 
