@@ -4,6 +4,8 @@
 #define VERTEX_SHADER_PATH "../src/shaders/base.vert"
 #define FRAGMENT_SHADER_PATH "../src/shaders/base.frag"
 
+#define UNIFORM_COLOR "custom_color"
+
 unsigned int compile_shader(const char* shader_filepath, const GLenum shader_type);
 
 unsigned int shader_init(const char* vertex_shader_filepath, const char* fragment_shader_filepath);
@@ -21,10 +23,9 @@ EngineGFX* init_gfx() {
 
     // Temporal value, this should be provided to this step
     float vertices[] = {
-        0.5f, 0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        -0.5f, 0.5f, 0.0f
+        0.0f,  0.5f, 0.0f
     };
 
     unsigned int indices[] = {
@@ -56,11 +57,17 @@ EngineGFX* init_gfx() {
 void render_pipeline(EngineGFX* gfx) {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    float time = glfwGetTime();
+    float green = (sin(time) / 2.0f) + 0.5f;
+
+    int fragment_uniform_color = glGetUniformLocation(gfx->shader_program, UNIFORM_COLOR);
+    glUniform4f(fragment_uniform_color, 0.0f, green, 0.0f, 1.0f);
+
     glUseProgram(gfx->shader_program);
     glBindVertexArray(gfx->vao);
 
-    // glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void clean_gfx(EngineGFX* gfx) {

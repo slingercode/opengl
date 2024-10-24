@@ -2,6 +2,8 @@
 
 layout(location = 0) out vec4 frag_color;
 
+uniform vec4 custom_color;
+
 void main() {
-    frag_color = vec4(1.0, 1.0, 1.0, 1.0);
+    frag_color = custom_color;
 }
