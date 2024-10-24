@@ -1,9 +1,9 @@
 #version 330
 
-layout(location = 0) out vec4 frag_color;
+in vec3 out_color;
 
-uniform vec4 custom_color;
+out vec4 fragment_color;
 
 void main() {
-    frag_color = custom_color;
+    fragment_color = vec4(out_color, 1.0);
 }

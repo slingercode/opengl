@@ -30,7 +30,7 @@ Engine* init() {
 
     state->width = 800;
     state->height = 600;
-    state->title = "OpenGl";
+    state->title = "OpenGL";
 
     engine->window = init_window(engine->state);
 
