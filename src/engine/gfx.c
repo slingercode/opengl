@@ -116,6 +116,7 @@ unsigned int compile_shader(const char* shader_filepath, const GLenum shader_typ
     char* shader_source_buffer = read_shader_file(shader_filepath);
     if (shader_source_buffer == NULL) {
         printf("There was an error reading the shader code\n");
+        printf("errno read_shader_file: %d\n", errno);
 
         return 0;
     }

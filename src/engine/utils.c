@@ -1,25 +1,40 @@
 #include "utils.h"
 
 char* read_shader_file(const char* file_path) {
-    FILE* shader_file = fopen(file_path, "r");
-    if (shader_file == NULL) {
+    int file_descriptor = open(file_path, O_RDONLY);
+    if (file_descriptor == -1) {
         return NULL;
     }
 
-    fseek(shader_file, 0, SEEK_END);
-    long length = ftell(shader_file);
-    fseek(shader_file, 0, SEEK_SET);
+    int buffer_size = lseek(file_descriptor, 0, SEEK_END);
+    if (buffer_size == -1) {
+        close(file_descriptor);
 
-    char* buffer = malloc(length + 1);
+        return NULL;
+    }
+
+    // Reset the file pointer to the beginning of the file
+    lseek(file_descriptor, 0, SEEK_SET);
+
+    // Buffer size plus for null-termination
+    char* buffer = malloc(buffer_size + 1);
     if (buffer == NULL) {
-        fclose(shader_file);
+        close(file_descriptor);
 
         return NULL;
     }
 
-    fread(buffer, 1, length, shader_file);
+    int bytes_read = read(file_descriptor, buffer, buffer_size);
+    if (bytes_read == -1) {
+        close(file_descriptor);
 
-    fclose(shader_file);
+        return NULL;
+    }
+
+    // null-terminate the string
+    buffer[buffer_size] = '\0';
+
+    close(file_descriptor);
 
     return buffer;
 }
