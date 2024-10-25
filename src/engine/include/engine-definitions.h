@@ -2,6 +2,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "stb/stb_image.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -16,6 +17,8 @@ typedef struct EngineState {
 
 typedef struct EngineGFX {
     unsigned int shader_program;
+    unsigned int texture_1;
+    unsigned int texture_2;
     unsigned int vao;
     unsigned int vbo;
     unsigned int ebo;

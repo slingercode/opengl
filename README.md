@@ -1,6 +1,10 @@
 # OpenGL
 
-![OpenGL Triangle](./assets/triangle.png "Triangle")
+**Triangle**
+![Triangle](./assets/triangle.png "Triangle")
+
+**Textures**
+![Textures](./assets/texture.png "Textures")
 
 ## References
 
