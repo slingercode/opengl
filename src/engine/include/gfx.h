@@ -4,7 +4,7 @@
 
 #include "utils.h"
 
-EngineGFX* init_gfx();
+EngineGFX* init_gfx(void);
 
 void render_pipeline(EngineGFX* gfx);
 

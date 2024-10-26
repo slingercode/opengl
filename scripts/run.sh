@@ -1,6 +1,17 @@
 #!/bin/sh
 
-cd build && make debug && ./debug
+if [ "$#" == 1 ]; then
+  GLFW_SDK_PATH="$1"
+else
+  GLFW_SDK_PATH=""
+fi
 
-# Release mode
-# cd build && make release && ./release
+mkdir -p build && cd build
+
+if [ "$GLFW_SDK_PATH" != "" ]; then
+  cmake -DCMAKE_BUILD_TYPE=debug -DGLFW_SDK_PATH="$GLFW_SDK_PATH" ..
+else
+  cmake -DCMAKE_BUILD_TYPE=debug ..
+fi
+
+cmake --build . --target run

@@ -74,5 +74,8 @@ void on_escape_press(GLFWwindow* window, int key, int scancode, int action, int 
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    /* Unused parameters */
+    (void)window;
+
     glViewport(0, 0, width, height);
 }

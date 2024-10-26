@@ -5,7 +5,7 @@ static bool instance_created = false;
 
 void clean(Engine* engine);
 
-Engine* init() {
+Engine* init(void) {
     if (instance_created) {
         printf("Engine already initialized\n");
 

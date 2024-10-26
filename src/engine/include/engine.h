@@ -6,6 +6,6 @@
 #include "window.h"
 #include "utils.h"
 
-Engine* init();
+Engine* init(void);
 
 void run(Engine* app);

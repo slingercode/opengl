@@ -1,10 +1,9 @@
 #include "gfx.h"
 
 #define MSG_BUFFER 500
-#define VERTEX_SHADER_PATH "../src/shaders/base.vert"
-#define FRAGMENT_SHADER_PATH "../src/shaders/base.frag"
+#define VERTEX_SHADER_PATH "../assets/shaders/base.vert"
+#define FRAGMENT_SHADER_PATH "../assets/shaders/base.frag"
 #define TEXTURE_1_PATH "../assets/textures/texture 1.jpg"
-// #define TEXTURE_2_PATH "../assets/textures/texture 2.png"
 #define TEXTURE_2_PATH "../assets/textures/smile.png"
 
 unsigned int compile_shader(const char* shader_filepath, const GLenum shader_type);
@@ -13,7 +12,7 @@ unsigned int shader_init(const char* vertex_shader_filepath, const char* fragmen
 
 unsigned int load_texture(const char* texture_filepath, const int temp);
 
-EngineGFX* init_gfx() {
+EngineGFX* init_gfx(void) {
     EngineGFX* gfx = (EngineGFX*) malloc(sizeof(EngineGFX));
     if (gfx == NULL) {
         printf("There was an error trying to initialize the graphics card\n");
