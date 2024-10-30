@@ -31,6 +31,8 @@ GLFWwindow* init_window(const EngineState* state) {
     if (window == NULL) {
         printf("There was an error trying to create the window\n");
 
+        clean_window(window);
+
         return NULL;
     }
 
@@ -41,6 +43,8 @@ GLFWwindow* init_window(const EngineState* state) {
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         printf("There was an error trying to initialize GLAD\n");
+
+        clean_window(window);
 
         return NULL;
     }

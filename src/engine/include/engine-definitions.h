@@ -18,10 +18,22 @@ typedef struct EngineState {
     const char* title;
 } EngineState;
 
+typedef struct Texture {
+    unsigned int id;
+    const char* path;
+    unsigned int format;
+} Texture;
+
+typedef struct Textures {
+    /// An array of textures
+    Texture* data;
+    unsigned int length;
+    unsigned int capacity;
+} Textures;
+
 typedef struct EngineGFX {
     unsigned int shader_program;
-    unsigned int texture_1;
-    unsigned int texture_2;
+    Textures textures;
     unsigned int vao;
     unsigned int vbo;
     unsigned int ebo;

@@ -10,10 +10,8 @@ unsigned int compile_shader(const char* shader_filepath, const GLenum shader_typ
 
 unsigned int shader_init(const char* vertex_shader_filepath, const char* fragment_shader_filepath);
 
-unsigned int load_texture(const char* texture_filepath, const int temp);
-
 EngineGFX* init_gfx(void) {
-    EngineGFX* gfx = (EngineGFX*) malloc(sizeof(EngineGFX));
+    EngineGFX* gfx = (EngineGFX*)malloc(sizeof(EngineGFX));
     if (gfx == NULL) {
         printf("There was an error trying to initialize the graphics card\n");
 
@@ -23,11 +21,18 @@ EngineGFX* init_gfx(void) {
     // Temporal value, the shaders files should be provided into this step
     gfx->shader_program = shader_init(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH);
 
-    // Temporal value, the texture should be provided into this step
-    // temp (the second param) is important because the color channel needs to be RGB bc with alpha does not work? idunno
-    // The first image is JPG so it does not have an alpha channel? idunno x2
-    gfx->texture_1 = load_texture(TEXTURE_1_PATH, GL_RGB);
-    gfx->texture_2 = load_texture(TEXTURE_2_PATH, GL_RGBA);
+    // Initialize the textures array
+    gfx->textures = textures_init();
+
+    // Dummy and temporal value
+    Texture texture1 = { .id = 0, .path = TEXTURE_1_PATH, .format = GL_RGB };
+    Texture texture2 = { .id = 0, .path = TEXTURE_2_PATH, .format = GL_RGBA };
+
+    load_texture(&texture1);
+    load_texture(&texture2);
+
+    append_texture(&gfx->textures, texture1);
+    append_texture(&gfx->textures, texture2);
 
     // Temporal value...
     const float vertices[] = {
@@ -81,31 +86,47 @@ EngineGFX* init_gfx(void) {
     return gfx;
 }
 
-void render_pipeline(EngineGFX* gfx) {
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, gfx->texture_1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, gfx->texture_2);
-
-    glUseProgram(gfx->shader_program);
-    glBindVertexArray(gfx->vao);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-
 void clean_gfx(EngineGFX* gfx) {
     if (gfx == NULL) return;
 
     glDeleteVertexArrays(1, &gfx->vao);
     glDeleteBuffers(1, &gfx->vbo);
     glDeleteBuffers(1, &gfx->ebo);
-    glDeleteTextures(1, &gfx->texture_1);
-    glDeleteTextures(1, &gfx->texture_2);
     glDeleteProgram(gfx->shader_program);
 
+    if (gfx->textures.data != NULL) {
+        for (int i = 0; i < (int)gfx->textures.length; i++) {
+            // We can specify the amount of ids deleted and an array
+            // but the current array does not contain only the ids
+            glDeleteTextures(1, &gfx->textures.data[i].id);
+        }
+
+        clean_textures(&gfx->textures);
+    }
+
     free(gfx);
+}
+
+void render_pipeline(EngineGFX* gfx) {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // How to map the glActiveTexture?
+    // for (int i = 0; i < (int)gfx->textures.length; i++) {
+    //     const Texture texture = gfx->textures.data[i];
+
+    //     glActiveTexture(GL_TEXTURE0);
+    //     glBindTexture(GL_TEXTURE_2D, texture.id);
+    // }
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gfx->textures.data[0].id);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, gfx->textures.data[1].id);
+
+    glUseProgram(gfx->shader_program);
+    glBindVertexArray(gfx->vao);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 unsigned int compile_shader(const char* shader_filepath, const GLenum shader_type) {
@@ -176,35 +197,4 @@ unsigned int shader_init(const char* vertex_shader_filepath, const char* fragmen
     glDeleteShader(fragment_shader); 
 
     return shader_program;
-}
-
-unsigned int load_texture(const char* texture_filepath, const int temp) {
-    unsigned int texture;
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    stbi_set_flip_vertically_on_load(true);
-
-    int width, height, channels;
-
-    unsigned char *data = stbi_load(texture_filepath, &width, &height, &channels, 0);
-    if (data == NULL) {
-        printf("There was an error trying to load the texture\n");
-        printf("Texture %s\n", texture_filepath);
-
-        return 0;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, temp, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    stbi_image_free(data);
-
-    return texture;
 }

@@ -12,16 +12,18 @@ Engine* init(void) {
         return NULL;
     }
 
-    Engine* engine = (Engine*) malloc(sizeof(Engine));
+    Engine* engine = (Engine*)malloc(sizeof(Engine));
     if (engine == NULL) {
         printf("There was an error trying to initialize the engine\n");
 
         return NULL;
     }
 
-    EngineState* state = (EngineState*) malloc(sizeof(EngineState));
+    EngineState* state = (EngineState*)malloc(sizeof(EngineState));
     if (state == NULL) {
         printf("There was an error trying to initialize the engine state\n");
+
+        clean(engine);
 
         return NULL;
     }
@@ -33,9 +35,23 @@ Engine* init(void) {
     state->title = "OpenGL";
 
     engine->window = init_window(engine->state);
+    if (engine->window == NULL) {
+        printf("Engine could not start\n");
+
+        clean(engine);
+
+        return NULL;
+    }
 
     // Maybe this is not the right place to initialize this?
     engine->gfx = init_gfx();
+    if (engine->gfx == NULL) {
+        printf("Engine could not start\n");
+
+        clean(engine);
+
+        return NULL;
+    }
 
     instance_created = true;
 
@@ -43,6 +59,12 @@ Engine* init(void) {
 }
 
 void run(Engine* engine) {
+    if (engine == NULL) {
+        instance_created = false;
+
+        return;
+    }
+
     while (!glfwWindowShouldClose(engine->window)) {
         // Input
 
