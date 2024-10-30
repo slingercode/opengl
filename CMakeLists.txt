@@ -12,6 +12,14 @@ endif()
 
 project(OpenGL C)
 
+# I know this is not required but im learning, actually i can
+# update this this with cmake cross compile
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    set(ARCH, "arm64")
+elseif()
+    set(ARCH, "")
+endif()
+
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
@@ -26,6 +34,10 @@ endforeach()
 list(REMOVE_DUPLICATES HEADER_DIR_LIST)
 
 add_executable(opengl_exe ${SRC})
+
+if (ARCH STREQUAL "arm64")
+    target_compile_options(opengl_exe PRIVATE -arch arm64)
+endif()
 
 target_compile_options(opengl_exe PRIVATE -Wall -Wextra -pedantic)
 target_include_directories(opengl_exe PRIVATE ${HEADER_DIR_LIST} ${GLFW_SDK_PATH}/include "externals/")
