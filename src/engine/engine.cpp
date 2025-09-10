@@ -31,11 +31,19 @@ void Engine::run() {
     std::exit(EXIT_FAILURE);
   }
 
-  glViewport(0, 0, State::Window::WIDTH, State::Window::HEIGHT);
+  int framebuffer_width, framebuffer_height;
+  glfwGetFramebufferSize( //
+      app->window->ref,   //
+      &framebuffer_width, //
+      &framebuffer_height //
+  );
 
-  // clang-format off
-  glfwSetFramebufferSizeCallback(app->window->ref, Window::framebuffer_size_callback);
-  // clang-format on
+  glViewport(0, 0, framebuffer_width, framebuffer_height);
+
+  glfwSetFramebufferSizeCallback(       //
+      app->window->ref,                 //
+      Window::framebuffer_size_callback //
+  );
 
   app->loop();
 

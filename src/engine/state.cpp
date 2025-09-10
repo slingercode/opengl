@@ -20,8 +20,10 @@ Window::Window() {
 
 Window::~Window() { ref = nullptr; }
 
-// clang-format off
-void Window::framebuffer_size_callback([[maybe_unused]]GLFWwindow *window, int width, int height) {
+void Window::framebuffer_size_callback(  //
+    [[maybe_unused]] GLFWwindow *window, //
+    int width,                           //
+    int height                           //
+) {
   glViewport(0, 0, width, height);
 }
-// clang-format on

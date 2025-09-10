@@ -6,8 +6,9 @@ namespace Engine {
 namespace State {
 class Window {
 public:
-  static const int WIDTH = 800;
-  static const int HEIGHT = 800;
+  static const unsigned int WIDTH = 1200;
+  static const unsigned int HEIGHT = 800;
+  // I like this color :)
   static constexpr float BG_COLOR = 16.0f / 255.0f;
 
   GLFWwindow *ref;
