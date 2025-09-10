@@ -1,0 +1,4 @@
+[tools]
+"vfox:mise-plugins/vfox-cmake" = "latest"
+clang-format = "latest"
+ninja = "latest"
