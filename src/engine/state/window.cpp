@@ -1,10 +1,9 @@
-#include <cstddef>
 #include <glad/glad.h>
 
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "state.hpp"
+#include "window.hpp"
 
 using namespace Engine::State;
 
@@ -18,9 +17,13 @@ Window::Window() {
   glfwMakeContextCurrent(ref);
 }
 
-Window::~Window() { ref = nullptr; }
+Window::~Window() {
+  std::cout << "Window clear" << std::endl;
 
-void Window::framebuffer_size_callback(  //
+  ref = nullptr;
+}
+
+void Window::framebufferSizeCallback(    //
     [[maybe_unused]] GLFWwindow *window, //
     int width,                           //
     int height                           //

@@ -14,6 +14,7 @@ file(
     SOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/state/*.cpp
 )
 
 add_executable(${TARGET} ${SOURCE_FILES})
@@ -23,9 +24,10 @@ target_compile_options(${TARGET} PRIVATE -Wall -Wextra -pedantic)
 target_include_directories(
     ${TARGET}
     PRIVATE
+    ${GLFW_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine
-    ${GLFW_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/state
 )
 
 find_library(COCOA_FRAMEWORK Cocoa REQUIRED)

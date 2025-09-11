@@ -6,7 +6,6 @@
 
 #include "app.hpp"
 #include "engine.hpp"
-#include "state.hpp"
 
 using namespace Engine::State;
 
@@ -22,7 +21,7 @@ void Engine::run() {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  auto app = std::make_unique<Engine::App>();
+  auto app = std::make_unique<App>();
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     glfwTerminate();
@@ -31,18 +30,18 @@ void Engine::run() {
     std::exit(EXIT_FAILURE);
   }
 
-  int framebuffer_width, framebuffer_height;
+  int framebufferWidth, framebufferHeight;
   glfwGetFramebufferSize( //
       app->window->ref,   //
-      &framebuffer_width, //
-      &framebuffer_height //
+      &framebufferWidth,  //
+      &framebufferHeight  //
   );
 
-  glViewport(0, 0, framebuffer_width, framebuffer_height);
+  glViewport(0, 0, framebufferWidth, framebufferHeight);
 
-  glfwSetFramebufferSizeCallback(       //
-      app->window->ref,                 //
-      Window::framebuffer_size_callback //
+  glfwSetFramebufferSizeCallback(     //
+      app->window->ref,               //
+      Window::framebufferSizeCallback //
   );
 
   app->loop();

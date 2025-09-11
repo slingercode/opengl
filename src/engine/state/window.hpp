@@ -17,7 +17,7 @@ public:
   ~Window();
 
   // clang-format off
-  static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+  static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
   // clang-format on
 };
 } // namespace State

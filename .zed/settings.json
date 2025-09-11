@@ -1,5 +1,6 @@
 {
   "format_on_save": "on",
+  "tab_size": 2,
   "languages": {
     "C": {
       "formatter": {
@@ -10,6 +11,14 @@
       }
     },
     "C++": {
+      "formatter": {
+        "external": {
+          "command": "clang-format",
+          "arguments": ["--style=file", "--assume-filename={buffer_path}"]
+        }
+      }
+    },
+    "GLSL": {
       "formatter": {
         "external": {
           "command": "clang-format",
