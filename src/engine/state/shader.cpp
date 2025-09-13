@@ -3,12 +3,20 @@
 #include <iostream>
 
 #include "shader.hpp"
+#include "utils.hpp"
 
 using namespace Engine::State;
+using namespace Engine::Utils;
 
-Shader::Shader(const char *vertexSource, const char *fragmentSource) {
-  vertexShader = compileShader(vertexSource, GL_VERTEX_SHADER);
-  fragmentShader = compileShader(fragmentSource, GL_FRAGMENT_SHADER);
+Shader::Shader(const char *vertexShaderPath, const char *fragmentShaderPath) {
+  const std::string vertexSource = readFile(vertexShaderPath);
+  const std::string fragmentSource = readFile(fragmentShaderPath);
+
+  const char *vs = vertexSource.c_str();
+  const char *fs = fragmentSource.c_str();
+
+  vertexShader = compileShader(vs, GL_VERTEX_SHADER);
+  fragmentShader = compileShader(fs, GL_FRAGMENT_SHADER);
 
   Shader::linkShaders();
 }

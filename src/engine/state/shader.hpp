@@ -17,7 +17,7 @@ class Shader {
 public:
   unsigned int program;
 
-  Shader(const char *vertexSource, const char *fragmentSource);
+  Shader(const char *vertexShaderPath, const char *fragmentShaderPath);
   ~Shader();
 };
 } // namespace State

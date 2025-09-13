@@ -21,6 +21,8 @@ void Engine::run() {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+  // The application needs to be created first in order to create
+  // the OpenGL context on the window
   auto app = std::make_unique<App>();
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -43,6 +45,8 @@ void Engine::run() {
       app->window->ref,               //
       Window::framebufferSizeCallback //
   );
+
+  app->initTestbed();
 
   app->loop();
 

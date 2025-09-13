@@ -8,6 +8,7 @@ class Window {
 public:
   static const unsigned int WIDTH = 1200;
   static const unsigned int HEIGHT = 800;
+
   // I like this color :)
   static constexpr float BG_COLOR = 16.0f / 255.0f;
 

@@ -1,4 +1,4 @@
-#include "engine/engine.hpp"
+#include "engine.hpp"
 
 int main(void) {
   Engine::run();
