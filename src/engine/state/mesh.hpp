@@ -8,6 +8,19 @@
 namespace Engine {
 namespace State {
 class Mesh {
+  const int VERTEX_POSITION = 0;
+  const int VERTEX_COLOR = 1;
+
+  void setVertexFloatAttribute( //
+      int position,             //
+      int size,                 //
+      int stride,               //
+      const void *pointer       //
+  );
+
+  void setVertexPositionAttribute();
+  void setVertexColorAttribute();
+
 public:
   unsigned int VAO, VBO;
 

@@ -27,38 +27,20 @@ App::~App() {
   window = nullptr;
 }
 
-void App::processInput(GLFWwindow *window) {
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    glfwSetWindowShouldClose(window, true);
-  }
-}
-
 void App::initTestbed() {
   // clang-format off
   meshes.push_back(
     std::make_unique<Mesh>(std::vector<float>{
-      -0.9f, -0.5f, 0.0f,
-      -0.0f, -0.5f, 0.0f,
-      -0.45f, 0.5f, 0.0f,
+      // positions         // colors
+       0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+      -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
+       0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,
     })
   );
   // clang-format on
 
-  auto orangeShader = std::make_shared<Shader>(vertexPath, fragmentOrangePath);
-  meshes[0]->shader = orangeShader;
-
-  // clang-format off
-  meshes.push_back(
-    std::make_unique<Mesh>(std::vector<float>{
-      0.0f, -0.5f, 0.0f,
-      0.9f, -0.5f, 0.0f,
-      0.45f, 0.5f, 0.0f
-    })
-  );
-  // clang-format on
-
-  auto yellowShader = std::make_shared<Shader>(vertexPath, fragmentYellowPath);
-  meshes[1]->shader = yellowShader;
+  auto shader = std::make_shared<Shader>(vertexPath, fragmentPath);
+  meshes[0]->shader = shader;
 
   VAOs.resize(meshes.size());
   VBOs.resize(meshes.size());
@@ -86,5 +68,11 @@ void App::loop() {
 
     glfwSwapBuffers(window->ref);
     glfwPollEvents();
+  }
+}
+
+void App::processInput(GLFWwindow *window) {
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    glfwSetWindowShouldClose(window, true);
   }
 }

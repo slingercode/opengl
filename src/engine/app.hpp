@@ -10,8 +10,7 @@ namespace Engine {
 class App {
 private:
   const char *vertexPath = "../shaders/vertex.glsl";
-  const char *fragmentOrangePath = "../shaders/fragment_orange.glsl";
-  const char *fragmentYellowPath = "../shaders/fragment_yellow.glsl";
+  const char *fragmentPath = "../shaders/fragment.glsl";
 
   void processInput(GLFWwindow *window);
 
