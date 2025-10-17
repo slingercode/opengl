@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "mesh.hpp"
+#include "texture.hpp"
 
 using namespace Engine::State;
 
@@ -64,6 +65,8 @@ void Mesh::init() {
 
   setVertexPositionAttribute();
   setVertexColorAttribute();
+
+  new Texture(texturePath);
 }
 
 void Mesh::render() {

@@ -8,8 +8,11 @@
 namespace Engine {
 namespace State {
 class Mesh {
+private:
   const int VERTEX_POSITION = 0;
   const int VERTEX_COLOR = 1;
+
+  const char *texturePath = "";
 
   void setVertexFloatAttribute( //
       int position,             //

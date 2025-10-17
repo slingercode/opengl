@@ -7,6 +7,7 @@
 namespace Engine {
 namespace State {
 class Shader {
+private:
   int success;
   char infoLog[LOG_SIZE];
 
